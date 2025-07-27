@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saint Joseph College of Canlaon Inc.</title>
+    <title>Our School</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
@@ -52,14 +52,46 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Custom message box for alerts */
+        .message-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            text-align: center;
+        }
+        .message-box-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
 
+    <!-- Message Box for alerts -->
+    <div id="messageBoxOverlay" class="message-box-overlay"></div>
+    <div id="messageBox" class="message-box">
+        <p id="messageBoxText" class="text-lg font-semibold mb-4"></p>
+        <button id="messageBoxClose" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">OK</button>
+    </div>
+
     <!-- Navbar -->
     <nav class="bg-blue-700 p-4 shadow-lg">
         <div class="container mx-auto flex flex-wrap items-center justify-between">
-            <a href="#" class="text-white text-3xl font-bold rounded-md px-3 py-2 hover:bg-blue-600 transition duration-300">Saint Joseph College of Canlaon Inc.</a>
+            <a href="#" class="text-white text-3xl font-bold rounded-md px-3 py-2 hover:bg-blue-600 transition duration-300">Our School</a>
             <button class="text-white lg:hidden focus:outline-none" id="menu-button" aria-label="Toggle navigation menu">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -170,12 +202,13 @@
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">News & Events</h2>
             <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- News items will be injected here by JavaScript -->
+                <!-- News items will be injected here by JavaScript from Firestore -->
+                <p id="news-loading" class="col-span-full text-center text-gray-600">Loading news...</p>
             </div>
             <div class="text-center mt-10">
-                <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300">
-                    View All News
-                </a>
+                <button id="addNewsBtn" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300">
+                    Add New News Item (Demo)
+                </button>
             </div>
         </div>
     </section>
@@ -184,13 +217,14 @@
     <section id="gallery" class="py-16 bg-gray-50 shadow-md rounded-lg m-4 p-6">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">Our Photo Gallery</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <img src="https://placehold.co/400x300/ADD8E6/000000?text=Event+1" alt="School Event 1" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
-                <img src="https://placehold.co/400x300/87CEEB/000000?text=Classroom+Activity" alt="Classroom Activity" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
-                <img src="https://placehold.co/400x300/6495ED/000000?text=Sports+Day" alt="Sports Day" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
-                <img src="https://placehold.co/400x300/4682B4/000000?text=Graduation" alt="Graduation Ceremony" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
-                <img src="https://placehold.co/400x300/5F9EA0/000000?text=Science+Fair" alt="Science Fair" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
-                <img src="https://placehold.co/400x300/7FFFD4/000000?text=Art+Exhibition" alt="Art Exhibition" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+            <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Gallery items will be injected here by JavaScript from Firestore -->
+                <p id="gallery-loading" class="col-span-full text-center text-gray-600">Loading gallery...</p>
+            </div>
+            <div class="text-center mt-10">
+                <button id="addGalleryBtn" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300">
+                    Add New Gallery Item (Demo)
+                </button>
             </div>
         </div>
     </section>
@@ -205,40 +239,14 @@
     <section id="testimonials" class="py-16 bg-blue-100 shadow-md rounded-lg m-4 p-6">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">What Our Community Says</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
-                    <p class="text-gray-700 italic mb-4">"Our School has provided an exceptional learning environment for my children. The teachers are dedicated and truly care about each student's success."</p>
-                    <div class="flex items-center">
-                        <img src="https://placehold.co/50x50/CBD5E1/4A5568?text=P1" alt="Parent 1" class="w-12 h-12 rounded-full mr-4 object-cover">
-                        <div>
-                            <p class="font-semibold text-blue-700">Jane Doe</p>
-                            <p class="text-sm text-gray-500">Parent</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
-                    <p class="text-gray-700 italic mb-4">"The high school program prepared me incredibly well for college. I felt confident and ready for the challenges ahead thanks to the rigorous academics and supportive staff."</p>
-                    <div class="flex items-center">
-                        <img src="https://placehold.co/50x50/CBD5E1/4A5568?text=A1" alt="Alumni 1" class="w-12 h-12 rounded-full mr-4 object-cover">
-                        <div>
-                            <p class="font-semibold text-blue-700">John Smith</p>
-                            <p class="text-sm text-gray-500">Alumni, Class of 2020</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
-                    <p class="text-gray-700 italic mb-4">"As a teacher, I appreciate the collaborative spirit and the focus on innovative teaching methods. It's a joy to be part of this community."</p>
-                    <div class="flex items-center">
-                        <img src="https://placehold.co/50x50/CBD5E1/4A5568?text=T1" alt="Teacher 1" class="w-12 h-12 rounded-full mr-4 object-cover">
-                        <div>
-                            <p class="font-semibold text-blue-700">Emily White</p>
-                            <p class="text-sm text-gray-500">Faculty Member</p>
-                        </div>
-                    </div>
-                </div>
+            <div id="testimonials-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonials will be injected here by JavaScript from Firestore -->
+                <p id="testimonials-loading" class="col-span-full text-center text-gray-600">Loading testimonials...</p>
+            </div>
+            <div class="text-center mt-10">
+                <button id="addTestimonialBtn" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300">
+                    Add New Testimonial (Demo)
+                </button>
             </div>
         </div>
     </section>
@@ -272,15 +280,15 @@
             </div>
             <div class="mt-12">
                 <h3 class="text-2xl font-bold mb-4">Send Us a Message</h3>
-                <form class="max-w-xl mx-auto bg-blue-600 p-8 rounded-lg shadow-xl">
+                <form id="contactForm" class="max-w-xl mx-auto bg-blue-600 p-8 rounded-lg shadow-xl">
                     <div class="mb-6">
-                        <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Name">
+                        <input type="text" id="contactName" name="name" placeholder="Your Name" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Name">
                     </div>
                     <div class="mb-6">
-                        <input type="email" id="email" name="email" placeholder="Your Email" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Email">
+                        <input type="email" id="contactEmail" name="email" placeholder="Your Email" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Email">
                     </div>
                     <div class="mb-6">
-                        <textarea id="message" name="message" rows="6" placeholder="Your Message" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Message"></textarea>
+                        <textarea id="contactMessage" name="message" rows="6" placeholder="Your Message" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Message"></textarea>
                     </div>
                     <button type="submit" class="w-full bg-blue-400 hover:bg-blue-500 text-blue-900 font-bold py-4 px-6 rounded-md shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
                         Send Message
@@ -301,15 +309,333 @@
         </div>
     </footer>
 
-    <script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration and Initialization
+        // These global variables are provided by the Canvas environment
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDbmshMCe4IMigRbF_xVpmPn1cCvoN6zmc",
+  authDomain: "my-web-backend-b3b72.firebaseapp.com",
+  projectId: "my-web-backend-b3b72",
+  storageBucket: "my-web-backend-b3b72.firebasestorage.app",
+  messagingSenderId: "599860954584",
+  appId: "1:599860954584:web:89cb19689d41bb63cd1ead",
+  measurementId: "G-E1XFS5PTW8"
+};
+
+        let app;
+        let db;
+        let auth;
+        let userId;
+        let isAuthReady = false;
+
+        // Function to show custom message box
+        function showMessageBox(message) {
+            const messageBox = document.getElementById('messageBox');
+            const messageBoxText = document.getElementById('messageBoxText');
+            const messageBoxOverlay = document.getElementById('messageBoxOverlay');
+
+            messageBoxText.textContent = message;
+            messageBox.style.display = 'block';
+            messageBoxOverlay.style.display = 'block';
+        }
+
+        // Function to hide custom message box
+        function hideMessageBox() {
+            const messageBox = document.getElementById('messageBox');
+            const messageBoxOverlay = document.getElementById('messageBoxOverlay');
+            messageBox.style.display = 'none';
+            messageBoxOverlay.style.display = 'none';
+        }
+
+        // Event listener for message box close button
+        document.getElementById('messageBoxClose').addEventListener('click', hideMessageBox);
+
+        // Initialize Firebase and authenticate
+        async function initializeFirebase() {
+            try {
+                if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {
+                    showMessageBox("Firebase configuration is missing. Cannot connect to database.");
+                    console.error("Firebase config is empty or undefined.");
+                    return;
+                }
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Listen for auth state changes
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        isAuthReady = true;
+                        console.log("Firebase authenticated. User ID:", userId);
+                        // Once authenticated, start loading dynamic content
+                        loadDynamicContent();
+                    } else {
+                        // Sign in anonymously if no user is logged in
+                        try {
+                            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                                await signInWithCustomToken(auth, __initial_auth_token);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                        } catch (error) {
+                            console.error("Error signing in:", error);
+                            showMessageBox("Failed to authenticate with Firebase. Some features may not work.");
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showMessageBox("Failed to initialize Firebase. Check console for details.");
+            }
+        }
+
+        // --- Dynamic Content Loading Functions ---
+
+        // Load News & Events from Firestore
+        function loadNewsEvents() {
+            if (!isAuthReady) return;
+
+            const newsContainer = document.getElementById('news-container');
+            const newsLoading = document.getElementById('news-loading');
+            newsLoading.style.display = 'block'; // Show loading indicator
+
+            const newsCollectionRef = collection(db, `artifacts/${appId}/public/data/news`);
+            onSnapshot(newsCollectionRef, (snapshot) => {
+                const newsItems = [];
+                snapshot.forEach((doc) => {
+                    newsItems.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by timestamp if available, otherwise by date string (descending)
+                newsItems.sort((a, b) => {
+                    if (a.timestamp && b.timestamp) {
+                        return b.timestamp.toMillis() - a.timestamp.toMillis();
+                    }
+                    return new Date(b.date) - new Date(a.date);
+                });
+
+                if (newsItems.length === 0) {
+                    newsContainer.innerHTML = '<p class="col-span-full text-center text-gray-600">No news items found. Add some!</p>';
+                } else {
+                    newsContainer.innerHTML = newsItems.map(event => `
+                        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border-l-4 border-blue-500">
+                            <p class="text-sm text-gray-500 mb-2">${event.date || 'N/A'}</p>
+                            <h3 class="text-2xl font-semibold text-blue-700 mb-3">${event.title || 'No Title'}</h3>
+                            <p class="text-gray-700 mb-4">${event.description || 'No description available.'}</p>
+                            <a href="${event.link || '#'}" class="text-blue-500 hover:underline font-medium">Read More &rarr;</a>
+                        </div>
+                    `).join('');
+                }
+                newsLoading.style.display = 'none'; // Hide loading indicator
+            }, (error) => {
+                console.error("Error loading news:", error);
+                newsContainer.innerHTML = '<p class="col-span-full text-center text-red-500">Failed to load news. Please try again later.</p>';
+                newsLoading.style.display = 'none';
+            });
+        }
+
+        // Load Gallery from Firestore
+        function loadGallery() {
+            if (!isAuthReady) return;
+
+            const galleryContainer = document.getElementById('gallery-container');
+            const galleryLoading = document.getElementById('gallery-loading');
+            galleryLoading.style.display = 'block'; // Show loading indicator
+
+            const galleryCollectionRef = collection(db, `artifacts/${appId}/public/data/gallery`);
+            onSnapshot(galleryCollectionRef, (snapshot) => {
+                const galleryItems = [];
+                snapshot.forEach((doc) => {
+                    galleryItems.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (galleryItems.length === 0) {
+                    galleryContainer.innerHTML = '<p class="col-span-full text-center text-gray-600">No gallery images found. Add some!</p>';
+                } else {
+                    galleryContainer.innerHTML = galleryItems.map(item => `
+                        <img src="${item.imageUrl || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image'}" alt="${item.description || 'Gallery Image'}"
+                             class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+                    `).join('');
+                }
+                galleryLoading.style.display = 'none'; // Hide loading indicator
+                attachGalleryModalListeners(); // Re-attach listeners after content is rendered
+            }, (error) => {
+                console.error("Error loading gallery:", error);
+                galleryContainer.innerHTML = '<p class="col-span-full text-center text-red-500">Failed to load gallery. Please try again later.</p>';
+                galleryLoading.style.display = 'none';
+            });
+        }
+
+        // Load Testimonials from Firestore
+        function loadTestimonials() {
+            if (!isAuthReady) return;
+
+            const testimonialsContainer = document.getElementById('testimonials-container');
+            const testimonialsLoading = document.getElementById('testimonials-loading');
+            testimonialsLoading.style.display = 'block'; // Show loading indicator
+
+            const testimonialsCollectionRef = collection(db, `artifacts/${appId}/public/data/testimonials`);
+            onSnapshot(testimonialsCollectionRef, (snapshot) => {
+                const testimonials = [];
+                snapshot.forEach((doc) => {
+                    testimonials.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (testimonials.length === 0) {
+                    testimonialsContainer.innerHTML = '<p class="col-span-full text-center text-gray-600">No testimonials found. Add some!</p>';
+                } else {
+                    testimonialsContainer.innerHTML = testimonials.map(testimonial => `
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
+                            <p class="text-gray-700 italic mb-4">"${testimonial.quote || 'No quote provided.'}"</p>
+                            <div class="flex items-center">
+                                <img src="${testimonial.avatarUrl || 'https://placehold.co/50x50/CBD5E1/4A5568?text=User'}" alt="${testimonial.name || 'Anonymous'}" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                <div>
+                                    <p class="font-semibold text-blue-700">${testimonial.name || 'Anonymous'}</p>
+                                    <p class="text-sm text-gray-500">${testimonial.role || 'Community Member'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                testimonialsLoading.style.display = 'none'; // Hide loading indicator
+            }, (error) => {
+                console.error("Error loading testimonials:", error);
+                testimonialsContainer.innerHTML = '<p class="col-span-full text-center text-red-500">Failed to load testimonials. Please try again later.</p>';
+                testimonialsLoading.style.display = 'none';
+            });
+        }
+
+        // Function to load all dynamic content
+        function loadDynamicContent() {
+            if (isAuthReady) {
+                loadNewsEvents();
+                loadGallery();
+                loadTestimonials();
+            } else {
+                console.log("Authentication not ready, delaying dynamic content load.");
+            }
+        }
+
+        // --- Add Content (Demo) Functions ---
+
+        // Add News Item
+        document.getElementById('addNewsBtn').addEventListener('click', async () => {
+            if (!isAuthReady) {
+                showMessageBox("Please wait for authentication to complete.");
+                return;
+            }
+            const title = prompt("Enter news title:");
+            const description = prompt("Enter news description:");
+            const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const link = prompt("Enter news link (optional):") || "#";
+
+            if (title && description) {
+                try {
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/news`), {
+                        title,
+                        description,
+                        date,
+                        link,
+                        timestamp: serverTimestamp() // Add a server timestamp for ordering
+                    });
+                    showMessageBox("News item added successfully!");
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                    showMessageBox("Error adding news item. See console for details.");
+                }
+            } else {
+                showMessageBox("Title and description are required for a news item.");
+            }
+        });
+
+        // Add Gallery Item
+        document.getElementById('addGalleryBtn').addEventListener('click', async () => {
+            if (!isAuthReady) {
+                showMessageBox("Please wait for authentication to complete.");
+                return;
+            }
+            const imageUrl = prompt("Enter image URL (e.g., https://placehold.co/400x300/FF0000/FFFFFF?text=New+Image):");
+            const description = prompt("Enter image description (alt text):");
+
+            if (imageUrl) {
+                try {
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/gallery`), {
+                        imageUrl,
+                        description,
+                        timestamp: serverTimestamp()
+                    });
+                    showMessageBox("Gallery item added successfully!");
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                    showMessageBox("Error adding gallery item. See console for details.");
+                }
+            } else {
+                showMessageBox("Image URL is required for a gallery item.");
+            }
+        });
+
+        // Add Testimonial
+        document.getElementById('addTestimonialBtn').addEventListener('click', async () => {
+            if (!isAuthReady) {
+                showMessageBox("Please wait for authentication to complete.");
+                return;
+            }
+            const quote = prompt("Enter testimonial quote:");
+            const name = prompt("Enter name of person:");
+            const role = prompt("Enter role (e.g., Parent, Alumni, Teacher):");
+            const avatarUrl = prompt("Enter avatar image URL (optional, e.g., https://placehold.co/50x50/CBD5E1/4A5568?text=User):") || 'https://placehold.co/50x50/CBD5E1/4A5568?text=User';
+
+            if (quote && name) {
+                try {
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/testimonials`), {
+                        quote,
+                        name,
+                        role,
+                        avatarUrl,
+                        timestamp: serverTimestamp()
+                    });
+                    showMessageBox("Testimonial added successfully!");
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                    showMessageBox("Error adding testimonial. See console for details.");
+                }
+            } else {
+                showMessageBox("Quote and Name are required for a testimonial.");
+            }
+        });
+
+        // --- General UI/UX Logic ---
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+                e.preventDefault(); // Prevent default anchor behavior
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const href = this.getAttribute('href');
+                if (href === '#') {
+                    // If href is just '#', scroll to the top of the page
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    // Otherwise, scroll to the element specified by the href
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        console.warn(`Target element for selector "${href}" not found.`);
+                    }
+                }
 
                 // Close mobile menu after clicking a link
                 if (navMenu.classList.contains('flex')) {
@@ -326,10 +652,10 @@
         menuButton.addEventListener('click', () => {
             navMenu.classList.toggle('hidden');
             navMenu.classList.toggle('flex');
-            navMenu.classList.toggle('flex-col'); // Ensure vertical stacking on mobile
+            navMenu.classList.toggle('flex-col');
         });
 
-        // Close menu if clicked outside on mobile (optional, but good for UX)
+        // Close menu if clicked outside on mobile
         document.addEventListener('click', (event) => {
             if (!navMenu.contains(event.target) && !menuButton.contains(event.target) && navMenu.classList.contains('flex')) {
                 navMenu.classList.remove('flex');
@@ -339,9 +665,9 @@
 
         // Ensure nav menu is hidden by default on small screens when loaded
         window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) { // Tailwind's 'lg' breakpoint
+            if (window.innerWidth >= 1024) {
                 navMenu.classList.remove('hidden', 'flex', 'flex-col');
-                navMenu.classList.add('flex'); // Keep it flex for desktop
+                navMenu.classList.add('flex');
             } else {
                 navMenu.classList.remove('flex');
                 navMenu.classList.add('hidden', 'flex-col');
@@ -351,82 +677,70 @@
         // Initial check on load
         window.dispatchEvent(new Event('resize'));
 
-        // News & Events Data and Rendering
-        const newsEvents = [
-            {
-                title: "Annual Science Fair Announced!",
-                date: "July 25, 2025",
-                description: "Get ready to showcase your scientific brilliance! Our annual science fair will be held on August 15th. Start preparing your projects now!",
-                link: "#"
-            },
-            {
-                title: "Parent-Teacher Conference Dates",
-                date: "July 20, 2025",
-                description: "Mark your calendars! Parent-Teacher conferences are scheduled for September 1st and 2nd. Sign-ups will open next week.",
-                link: "#"
-            },
-            {
-                title: "New Robotics Club Kicks Off",
-                date: "July 18, 2025",
-                description: "Exciting news! The new Robotics Club had its first successful meeting. Students learned basic coding and robot assembly.",
-                link: "#"
-            },
-            {
-                title: "Summer Reading Challenge Underway",
-                date: "July 10, 2025",
-                description: "Don't forget to log your reading hours for the Summer Reading Challenge! Prizes await the top readers.",
-                link: "#"
-            }
-        ];
-
-        function renderNewsEvents() {
-            const newsContainer = document.getElementById('news-container');
-            if (newsContainer) {
-                newsContainer.innerHTML = newsEvents.map(event => `
-                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border-l-4 border-blue-500">
-                        <p class="text-sm text-gray-500 mb-2">${event.date}</p>
-                        <h3 class="text-2xl font-semibold text-blue-700 mb-3">${event.title}</h3>
-                        <p class="text-gray-700 mb-4">${event.description}</p>
-                        <a href="${event.link}" class="text-blue-500 hover:underline font-medium">Read More &rarr;</a>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // Call render function on page load
-        document.addEventListener('DOMContentLoaded', renderNewsEvents);
-
         // Gallery Modal Logic
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const closeButton = document.getElementsByClassName('close-button')[0];
-        const galleryItems = document.querySelectorAll('.gallery-item');
 
-        galleryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                modal.style.display = 'flex'; // Use flex to center content
-                modalImage.src = this.src;
-                modalImage.alt = this.alt;
+        function attachGalleryModalListeners() {
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.removeEventListener('click', openModal); // Prevent duplicate listeners
+                item.addEventListener('click', openModal);
             });
-        });
+        }
+
+        function openModal() {
+            modal.style.display = 'flex';
+            modalImage.src = this.src;
+            modalImage.alt = this.alt;
+        }
 
         closeButton.addEventListener('click', function() {
             modal.style.display = 'none';
         });
 
-        // Close modal when clicking outside the image
         modal.addEventListener('click', function(event) {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
 
-        // Close modal with Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape' && modal.style.display === 'flex') {
                 modal.style.display = 'none';
             }
         });
+
+        // Contact Form Submission (for demonstration, logs to console)
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            if (!isAuthReady) {
+                showMessageBox("Please wait for authentication to complete before submitting the form.");
+                return;
+            }
+
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            try {
+                await addDoc(collection(db, `artifacts/${appId}/public/data/contact_submissions`), {
+                    name,
+                    email,
+                    message,
+                    timestamp: serverTimestamp()
+                });
+                showMessageBox("Your message has been sent successfully!");
+                this.reset(); // Clear the form
+            } catch (e) {
+                console.error("Error submitting contact form: ", e);
+                showMessageBox("Failed to send your message. Please try again.");
+            }
+        });
+
+        // Initialize Firebase when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', initializeFirebase);
     </script>
 </body>
 </html>
