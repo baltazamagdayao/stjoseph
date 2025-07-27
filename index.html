@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saint Joseph College of Canlaon Inc.</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for the modal */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain; /* Ensure image fits within modal */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-700 p-4 shadow-lg">
+        <div class="container mx-auto flex flex-wrap items-center justify-between">
+            <a href="#" class="text-white text-3xl font-bold rounded-md px-3 py-2 hover:bg-blue-600 transition duration-300">Saint Joseph College of Canlaon Inc.</a>
+            <button class="text-white lg:hidden focus:outline-none" id="menu-button" aria-label="Toggle navigation menu">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <div class="hidden w-full lg:flex lg:items-center lg:w-auto" id="nav-menu">
+                <ul class="flex flex-col lg:flex-row lg:space-x-8 mt-4 lg:mt-0">
+                    <li><a href="#home" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">Home</a></li>
+                    <li><a href="#about" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">About Us</a></li>
+                    <li><a href="#programs" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">Programs</a></li>
+                    <li><a href="#news-events" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">News & Events</a></li>
+                    <li><a href="#gallery" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">Gallery</a></li>
+                    <li><a href="#testimonials" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">Testimonials</a></li>
+                    <li><a href="#contact" class="block text-white text-lg hover:text-blue-200 px-3 py-2 rounded-md transition duration-300">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-cover bg-center h-[60vh] md:h-[70vh] flex items-center justify-center text-center p-4"
+        style="background-image: url('https://placehold.co/1200x600/60A5FA/FFFFFF?text=Welcome+to+Our+School');">
+        <div class="absolute inset-0 bg-black opacity-50 rounded-md"></div>
+        <div class="relative z-10 text-white max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 rounded-md p-2">Empowering Future Leaders</h1>
+            <p class="text-lg md:text-xl mb-8 rounded-md p-2">Providing quality education and fostering a nurturing environment for all students.</p>
+            <a href="#programs" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                Explore Our Programs
+            </a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-white shadow-md rounded-lg m-4 p-6">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">About Our School</h2>
+            <div class="flex flex-col lg:flex-row items-center lg:space-x-10">
+                <div class="lg:w-1/2 mb-8 lg:mb-0">
+                    <img src="https://placehold.co/600x400/93C5FD/FFFFFF?text=School+Building" alt="School Building" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                </div>
+                <div class="lg:w-1/2">
+                    <p class="text-lg leading-relaxed mb-6">
+                        Our school is dedicated to providing a comprehensive and enriching educational experience. We believe in nurturing not just academic excellence, but also personal growth, critical thinking, and social responsibility. Our experienced faculty and staff are committed to creating a supportive and stimulating learning environment where every student can thrive.
+                    </p>
+                    <p class="text-lg leading-relaxed mb-6">
+                        Established in 19XX, we have a proud history of academic achievement and community involvement. We offer a wide range of extracurricular activities, clubs, and sports to ensure a well-rounded education for all our students.
+                    </p>
+                    <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md shadow-md transition duration-300">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="py-16 bg-gray-50 shadow-md rounded-lg m-4 p-6">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">Our Academic Programs</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Program Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Elementary Education</h3>
+                    <p class="text-gray-700 mb-4">
+                        Our elementary program focuses on building foundational skills in reading, writing, mathematics, and science, while fostering curiosity and a love for learning.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 mb-4">
+                        <li>Interactive learning methods</li>
+                        <li>Creative arts and music</li>
+                        <li>Early literacy development</li>
+                    </ul>
+                    <a href="#" class="text-blue-500 hover:underline font-medium">Read More &rarr;</a>
+                </div>
+
+                <!-- Program Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">Middle School Curriculum</h3>
+                    <p class="text-gray-700 mb-4">
+                        The middle school curriculum prepares students for high school with advanced subjects, critical thinking challenges, and opportunities for exploration.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 mb-4">
+                        <li>STEM initiatives</li>
+                        <li>Leadership development</li>
+                        <li>Diverse elective options</li>
+                    </ul>
+                    <a href="#" class="text-blue-500 hover:underline font-medium">Read More &rarr;</a>
+                </div>
+
+                <!-- Program Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <h3 class="text-2xl font-semibold text-blue-700 mb-4">High School & College Prep</h3>
+                    <p class="text-gray-700 mb-4">
+                        Our high school program offers rigorous academics, college preparatory courses, and guidance for future career paths.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 mb-4">
+                        <li>AP and Honors courses</li>
+                        <li>College counseling</li>
+                        <li>Internship opportunities</li>
+                    </ul>
+                    <a href="#" class="text-blue-500 hover:underline font-medium">Read More &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Events Section -->
+    <section id="news-events" class="py-16 bg-white shadow-md rounded-lg m-4 p-6">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">News & Events</h2>
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- News items will be injected here by JavaScript -->
+            </div>
+            <div class="text-center mt-10">
+                <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300">
+                    View All News
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section id="gallery" class="py-16 bg-gray-50 shadow-md rounded-lg m-4 p-6">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">Our Photo Gallery</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <img src="https://placehold.co/400x300/ADD8E6/000000?text=Event+1" alt="School Event 1" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+                <img src="https://placehold.co/400x300/87CEEB/000000?text=Classroom+Activity" alt="Classroom Activity" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+                <img src="https://placehold.co/400x300/6495ED/000000?text=Sports+Day" alt="Sports Day" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+                <img src="https://placehold.co/400x300/4682B4/000000?text=Graduation" alt="Graduation Ceremony" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+                <img src="https://placehold.co/400x300/5F9EA0/000000?text=Science+Fair" alt="Science Fair" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+                <img src="https://placehold.co/400x300/7FFFD4/000000?text=Art+Exhibition" alt="Art Exhibition" class="gallery-item w-full h-48 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-80 transition duration-300">
+            </div>
+        </div>
+    </section>
+
+    <!-- The Modal for gallery -->
+    <div id="imageModal" class="modal">
+        <span class="close-button" aria-label="Close image viewer">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Enlarged image">
+    </div>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 bg-blue-100 shadow-md rounded-lg m-4 p-6">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-blue-800 mb-10">What Our Community Says</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
+                    <p class="text-gray-700 italic mb-4">"Our School has provided an exceptional learning environment for my children. The teachers are dedicated and truly care about each student's success."</p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/50x50/CBD5E1/4A5568?text=P1" alt="Parent 1" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-blue-700">Jane Doe</p>
+                            <p class="text-sm text-gray-500">Parent</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
+                    <p class="text-gray-700 italic mb-4">"The high school program prepared me incredibly well for college. I felt confident and ready for the challenges ahead thanks to the rigorous academics and supportive staff."</p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/50x50/CBD5E1/4A5568?text=A1" alt="Alumni 1" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-blue-700">John Smith</p>
+                            <p class="text-sm text-gray-500">Alumni, Class of 2020</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
+                    <p class="text-gray-700 italic mb-4">"As a teacher, I appreciate the collaborative spirit and the focus on innovative teaching methods. It's a joy to be part of this community."</p>
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/50x50/CBD5E1/4A5568?text=T1" alt="Teacher 1" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <p class="font-semibold text-blue-700">Emily White</p>
+                            <p class="text-sm text-gray-500">Faculty Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="py-16 bg-blue-700 text-white shadow-md rounded-lg m-4 p-6">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-8">Contact Us</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">
+                We'd love to hear from you! Whether you have questions about admissions, programs, or anything else, feel free to reach out.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center md:space-x-12 space-y-8 md:space-y-0">
+                <div class="flex flex-col items-center">
+                    <svg class="w-12 h-12 mb-3 text-blue-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+                    </svg>
+                    <p class="text-xl font-semibold">123 School Lane, Education City, 12345</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <svg class="w-12 h-12 mb-3 text-blue-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                    </svg>
+                    <p class="text-xl font-semibold">info@ourschool.edu</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <svg class="w-12 h-12 mb-3 text-blue-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path>
+                    </svg>
+                    <p class="text-xl font-semibold">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold mb-4">Send Us a Message</h3>
+                <form class="max-w-xl mx-auto bg-blue-600 p-8 rounded-lg shadow-xl">
+                    <div class="mb-6">
+                        <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Name">
+                    </div>
+                    <div class="mb-6">
+                        <input type="email" id="email" name="email" placeholder="Your Email" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Email">
+                    </div>
+                    <div class="mb-6">
+                        <textarea id="message" name="message" rows="6" placeholder="Your Message" class="w-full p-4 rounded-md bg-blue-700 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300" required aria-label="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-400 hover:bg-blue-500 text-blue-900 font-bold py-4 px-6 rounded-md shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-6 text-center shadow-inner mt-4 rounded-md">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Our School. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu after clicking a link
+                if (navMenu.classList.contains('flex')) {
+                    navMenu.classList.remove('flex');
+                    navMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const menuButton = document.getElementById('menu-button');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuButton.addEventListener('click', () => {
+            navMenu.classList.toggle('hidden');
+            navMenu.classList.toggle('flex');
+            navMenu.classList.toggle('flex-col'); // Ensure vertical stacking on mobile
+        });
+
+        // Close menu if clicked outside on mobile (optional, but good for UX)
+        document.addEventListener('click', (event) => {
+            if (!navMenu.contains(event.target) && !menuButton.contains(event.target) && navMenu.classList.contains('flex')) {
+                navMenu.classList.remove('flex');
+                navMenu.classList.add('hidden');
+            }
+        });
+
+        // Ensure nav menu is hidden by default on small screens when loaded
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) { // Tailwind's 'lg' breakpoint
+                navMenu.classList.remove('hidden', 'flex', 'flex-col');
+                navMenu.classList.add('flex'); // Keep it flex for desktop
+            } else {
+                navMenu.classList.remove('flex');
+                navMenu.classList.add('hidden', 'flex-col');
+            }
+        });
+
+        // Initial check on load
+        window.dispatchEvent(new Event('resize'));
+
+        // News & Events Data and Rendering
+        const newsEvents = [
+            {
+                title: "Annual Science Fair Announced!",
+                date: "July 25, 2025",
+                description: "Get ready to showcase your scientific brilliance! Our annual science fair will be held on August 15th. Start preparing your projects now!",
+                link: "#"
+            },
+            {
+                title: "Parent-Teacher Conference Dates",
+                date: "July 20, 2025",
+                description: "Mark your calendars! Parent-Teacher conferences are scheduled for September 1st and 2nd. Sign-ups will open next week.",
+                link: "#"
+            },
+            {
+                title: "New Robotics Club Kicks Off",
+                date: "July 18, 2025",
+                description: "Exciting news! The new Robotics Club had its first successful meeting. Students learned basic coding and robot assembly.",
+                link: "#"
+            },
+            {
+                title: "Summer Reading Challenge Underway",
+                date: "July 10, 2025",
+                description: "Don't forget to log your reading hours for the Summer Reading Challenge! Prizes await the top readers.",
+                link: "#"
+            }
+        ];
+
+        function renderNewsEvents() {
+            const newsContainer = document.getElementById('news-container');
+            if (newsContainer) {
+                newsContainer.innerHTML = newsEvents.map(event => `
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border-l-4 border-blue-500">
+                        <p class="text-sm text-gray-500 mb-2">${event.date}</p>
+                        <h3 class="text-2xl font-semibold text-blue-700 mb-3">${event.title}</h3>
+                        <p class="text-gray-700 mb-4">${event.description}</p>
+                        <a href="${event.link}" class="text-blue-500 hover:underline font-medium">Read More &rarr;</a>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Call render function on page load
+        document.addEventListener('DOMContentLoaded', renderNewsEvents);
+
+        // Gallery Modal Logic
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeButton = document.getElementsByClassName('close-button')[0];
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                modal.style.display = 'flex'; // Use flex to center content
+                modalImage.src = this.src;
+                modalImage.alt = this.alt;
+            });
+        });
+
+        closeButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
